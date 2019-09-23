@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(Decorama.Startup))]
+[assembly: OwinStartup(typeof(Decorama.Startup))] 
 
 namespace Decorama
 {
