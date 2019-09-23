@@ -1,0 +1,18 @@
+﻿@model  Decorama.Models.ImagenFormModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutCuenta.cshtml";
+}
+
+
+@section scripts {
+    <script>
+    $(document).ready(function () {
+        alert('@Model.Mensaje');
+        window.location.href = '../Cuenta/Imagenes';
+    });
+
+    </script>
+}
+
+

@@ -1,0 +1,80 @@
+﻿@model Decorama.Models.SeccionViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutCuenta.cshtml";
+}
+
+
+<div class="row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">SECCIONES</h4>
+    </div>
+</div>
+<!-- .row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">Mantenedor </h3>
+            <p class="text-muted m-b-20">Gestiona las secciones del sitio</p>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Contenido</th>
+                            <th>Última act.</th>
+                            <th>Tipo</th>
+                            <th class="text-nowrap"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var a in Model.Secciones)
+                        {
+                            <tr>
+                                <td><a href="javascript:void(0)">@a.Titulo</a></td>
+                                <td>@Html.Raw(a.Contenido)</td>
+                                <td><span class="text-muted"><i class="fa fa-clock-o"></i> @a.Fecha</span> </td>
+                                <td>@a.Tipo</td>
+                                <td class="text-nowrap">
+                                    <a href="#" onclick="openModalEditar(@a.Id)" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalEditarSeccion" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel1">Editar Sección</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" class="form-control" id="textIdEditarSeccion">
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Título</label>
+                        <input type="text" class="form-control" id="textTituloEditarSeccion">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">Contenido:</label>
+                        <div id="summernoteEditarContenidoSeccion">
+                            @*<h3 id="textContenidoEditarSeccion"></h3>*@
+                            @*<textarea class="form-control" id="textContenidoEditarSeccion"></textarea>*@
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="saveSeccion()">Modificar</button>
+            </div>
+        </div>
+    </div>
+</div>

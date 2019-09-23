@@ -1,0 +1,166 @@
+﻿@model Decorama.Models.ImagenesViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutCuenta.cshtml";
+}
+
+
+<div class="row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">IMAGENES</h4>
+    </div>
+    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+        <a href="javascript: void(0);" id="nuevaImagen" class="btn btn-info pull-right m-l-20 hidden-xs hidden-sm waves-effect waves-light">Nueva Imagen</a>
+    </div>
+</div>
+<!-- .row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">Mantenedor </h3>
+            <p class="text-muted m-b-20">Gestiona las imágenes del sitio</p>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Última act.</th>
+                            <th>Tipo</th>
+                            <th class="text-nowrap"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var a in Model.Imagenes)
+                        {
+                            <tr>
+                                <td><a href="javascript:void(0)">@a.Nombre</a></td>
+                                <td><span class="text-muted"><i class="fa fa-clock-o"></i> @a.Fecha</span></td>
+                                <td>@a.Tipo</td>
+                                <td class="text-nowrap">
+                                    <a href="#" id="@a.Id" class="trigger-modal-edit" data-nombre="@a.Nombre" data-imagen="@a.Ruta" data-tipo="@a.Tipo" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="@Url.Action("Eliminar", new { id = a.Id })" id="@a.Id"> <i class="fa fa-remove text-inverse m-r-10"></i> </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="ModalNuevaImagen" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"><span id="titulo-modal-nuevo">Ingreso de Imagen</span></h4>
+            </div>
+            @using (Html.BeginForm("NuevaImagen", "Cuenta", FormMethod.Post, new { @class = "form", enctype = "multipart/form-data", @id = "form_enviar" }))
+            {
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label" for="nombreNuevo">Nombre</label>
+                        <input class="form-control" id="nombreNuevo" type="text" name="Form.Nombre">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="tipoNuevoCombo">Tipo</label>
+                        <select class="form-control" id="tipoNuevoCombo" name="Form.Tipo">
+                            <option value="Slider">SLIDER</option>
+                            <option value="Inicio">INICIO</option>
+                            <option value="Equipo">EQUIPO</option>
+                            <option value="Servicios">SERVICIOS</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Fotografía</label>
+                        <input id="input-1aNuevo" type="file" class="file" name="Form.Imagen" data-show-preview="false" data-show-upload="false" data-show-remove="false">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">Aceptar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="botonCancelarNuevo">Cancelar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalEditarImagen" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"><span id="titulo-modal-editar">Modificación de Imagen</span></h4>
+            </div>
+            @using (Html.BeginForm("ModificarImagen", "Cuenta", FormMethod.Post, new { @class = "form", enctype = "multipart/form-data", @id = "form_enviar" }))
+            {
+        <div class="modal-body">
+            <input type="hidden" id="idEditar" name="Form.Id">
+            <div class="form-group">
+                <label class="control-label" for="nombreEditar">Nombre</label>
+                <input class="form-control" id="nombreEditar" type="text" name="Form.Nombre">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="tipoEditarCombo">Tipo</label>
+                <select class="form-control" id="tipoEditarCombo" name="Form.Tipo">
+                    <option value="Slider">SLIDER</option>
+                    <option value="Inicio">INICIO</option>
+                    <option value="Equipo">EQUIPO</option>
+                    <option value="Servicios">SERVICIOS</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Fotografía Actual</label>
+                <img id="fotoEditar" width="100%"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Nueva Fotografía</label>
+                <input id="input-1aEditar" type="file" class="file" name="Form.Imagen" data-show-preview="false" data-show-upload="false" data-show-remove="false">
+            </div>
+        </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">Aceptar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="botonCancelarEditar">Cancelar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script>
+
+        $('#nuevaImagen').click(function () {
+            $('#ModalNuevaImagen').modal();
+        });
+
+        $('.trigger-modal-edit').click(function () {
+            var id = $(this).attr('id');
+            var elemento = document.getElementById(id);
+            var nombre = elemento.dataset.nombre;
+            var tipo = elemento.dataset.tipo;
+            var imagen = elemento.dataset.imagen;
+            console.log(nombre);
+            console.log(tipo);
+            console.log(imagen);
+            $("#idEditar").val(id);
+            $("#nombreEditar").val(nombre);
+            $('#tipoEditarCombo').val(tipo);
+            //$("#input-1aEditar").val(imagen);
+            $('#ModalEditarImagen').modal();
+            $("#fotoEditar").attr("src", "../img/" + imagen);
+        });
+
+    </script>
+}
+
